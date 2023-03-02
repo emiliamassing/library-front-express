@@ -1,13 +1,16 @@
 let availableBookList = document.querySelector('.availableBookList');
 
-fetch("http://localhost:3000/library")
-.then(res => res.json())
-.then(data => {
-    printBooks(data);
-});
+function updateBooks(){
+    fetch("http://localhost:3000/library")
+    .then(res => res.json())
+    .then(data => {
+        printBooks(data);
+    });
+};
+
+updateBooks();
 
 function printBooks(books) {
-    console.log(books);
 
     availableBookList.innerHTML = '';
 
@@ -23,6 +26,12 @@ function printBooks(books) {
 
 function checkIfBorrowed(book) {
     const pElement = document.createElement('p');
+    
+    availableBookList.appendChild(pElement);
+
+    createButton(book);
+    const button = document.querySelectorAll('button');
+
     if(book.borrowed === false){
         pElement.innerHTML = 'Available';
         pElement.className = 'available';
@@ -31,15 +40,29 @@ function checkIfBorrowed(book) {
         pElement.innerHTML = 'Borrowed';
         pElement.className = 'borrowed';
     };
-
-    availableBookList.appendChild(pElement);
-    borrowBook(book);
 };
 
-function borrowBook(book) {
+function createButton(book) {
     const borrowButton = document.createElement('button');
     borrowButton.innerHTML = 'Borrow Book';
     borrowButton.id = book.id;
 
     availableBookList.appendChild(borrowButton);
+    borrowButton.addEventListener('click', borrowBook);
+};
+
+function borrowBook(e) {
+    let id = e.currentTarget.id;
+
+    fetch("http://localhost:3000/library/borrow", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({bookId: id})
+    })
+    .then(data => {
+        updateBooks();
+    });
+
 };
