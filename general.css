@@ -69,3 +69,7 @@ button.disable {
     display: none;
     color: red;
 }
+
+input{
+    margin-bottom: 1em;
+}
