@@ -27,3 +27,11 @@ a, a:visited{
     color: black;
 }
 
+p.available{
+    color: green;
+}
+
+p.borrowed{
+    color: red;
+}
+
