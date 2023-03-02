@@ -26,16 +26,20 @@ function checkIfBorrowed(book) {
     if(book.borrowed === false){
         pElement.innerHTML = 'Available';
         pElement.className = 'available';
+        
     } else {
         pElement.innerHTML = 'Borrowed';
         pElement.className = 'borrowed';
     };
 
     availableBookList.appendChild(pElement);
+    borrowBook(book);
 };
 
 function borrowBook(book) {
-    const borrowButton = createElement('button');
+    const borrowButton = document.createElement('button');
     borrowButton.innerHTML = 'Borrow Book';
     borrowButton.id = book.id;
+
+    availableBookList.appendChild(borrowButton);
 };

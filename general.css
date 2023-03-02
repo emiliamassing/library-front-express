@@ -35,3 +35,26 @@ p.borrowed{
     color: red;
 }
 
+button{
+    /*padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;*/
+
+    display: inline-block;
+    outline: 0;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    font-size: 13px;
+    height: 30px;
+    background-color: #79b1fa;
+    color: rgb(35, 35, 35);
+    border: 2px solid #67a8fd;
+    padding: 0 20px;
+}
+
+button:hover{
+    background-color: #509afa;
+}
