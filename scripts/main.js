@@ -10,7 +10,7 @@ function updateBooks(){
 
 updateBooks();
 
-function printBooks(books) {
+export function printBooks(books) {
 
     availableBookList.innerHTML = '';
 
