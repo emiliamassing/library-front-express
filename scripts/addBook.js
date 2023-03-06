@@ -3,10 +3,6 @@ const inputTitle = document.querySelector('#title');
 const inputAuthor = document.querySelector('#author');
 const inputPages = document.querySelector('#pages');
 
-function printAddingBookForm() {
-
-}
-
 function createNewBook() {
     let book = { title: inputTitle.value, 
         author: inputAuthor.value, 
@@ -17,7 +13,6 @@ function createNewBook() {
 };
 
 function postNewBook(book) {
-    
     fetch('http://localhost:3000/library', {
         method: 'POST',
         headers: {
