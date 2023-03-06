@@ -38,6 +38,7 @@ export function printBooks(books) {
         availableBookList.appendChild(liElement);
         liElement.appendChild(aElement);
         checkIfBorrowed(book);
+        printButton(book);
     });
 };
 
@@ -46,7 +47,7 @@ function checkIfBorrowed(book) {
     
     availableBookList.appendChild(pElement);
 
-    createButton(book);
+    createButtons(book);
     const button = document.querySelectorAll('button');
 
     if(book.borrowed === false){
@@ -59,14 +60,24 @@ function checkIfBorrowed(book) {
     };
 };
 
-function createButton(book) {
+function createButtons(book) {
     const borrowButton = document.createElement('button');
-    borrowButton.innerHTML = 'Borrow Book';
+    const returnButton = document.createElement('button');
     borrowButton.id = book.id;
+    returnButton.id = book.id;
 
-    availableBookList.appendChild(borrowButton);
+    if(book.borrowed == false){
+        availableBookList.appendChild(borrowButton);
+        borrowButton.innerHTML = 'Borrow Book';
+
+    } else{
+        availableBookList.appendChild(returnButton);
+        returnButton.innerHTML = 'Return Book';
+    }
+
     borrowButton.addEventListener('click', borrowBook);
-}
+    returnButton.addEventListener('click', returnBook);
+};
 
 function borrowBook(e) {
     let id = e.currentTarget.id;
@@ -82,4 +93,62 @@ function borrowBook(e) {
         fetchBooks();
     });
 
+};
+
+function returnBook(e) {
+    let id = e.currentTarget.id;
+
+    fetch("http://localhost:3000/library/return", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({bookId: id})
+    })
+    .then(data => {
+        fetchBooks();
+    });
+};
+
+function createInfoButton(book) {
+    const infoButton = document.createElement('button');
+    infoButton.innerHTML = 'Click to show information';
+    infoButton.id = book.id;
+
+    availableBookList.appendChild(infoButton);
+
+    infoButton.addEventListener('click', fetchInfo);
+};
+
+function printButton(book) {
+    createInfoButton(book);
+};
+
+function fetchInfo(e) {
+    let id = e.currentTarget.id;
+
+    fetch("http://localhost:3000/library/" + id)
+    .then((res) => res.json())
+    .then((bookId) => {
+        console.log('Get info');
+        bookId.id = id;
+        printInformation(bookId);
+    });
+};
+
+function printInformation(bookId) {
+    const container = document.querySelector('.moreInformation');
+    container.innerHTML = `
+        <h2>more information about chosen book</h2>
+        <p class="info">Title: ${bookId.title}</p>
+        <p class="info">Author: ${bookId.author}</p>
+        <p class="info">Pages: ${bookId.pages}</p>
+        <p class="info">Available: ${getBookStatus(bookId)}</p>
+    `;
+
+    fetchBooks();
+};
+
+function getBookStatus(book) {
+    return book.borrowed ? "No" : "Yes";
 };
