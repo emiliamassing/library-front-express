@@ -1,14 +1,28 @@
 let availableBookList = document.querySelector('.availableBookList');
 
-function updateBooks(){
+export default function fetchBooks(){
     fetch("http://localhost:3000/library")
     .then(res => res.json())
     .then(data => {
         printBooks(data);
+        console.log(data);
+    })
+    .catch((error) => {
+        console.log('Error while getting data');
+        showErrorMessage();
     });
 };
 
-updateBooks();
+fetchBooks();
+
+function showErrorMessage() {
+    const bookContainer = document.querySelector('.bookContainer');
+
+    const headerTag = document.createElement('h3');
+    headerTag.innerHTML = 'Error - Could not fetch data';
+
+    bookContainer.appendChild(headerTag);
+};
 
 export function printBooks(books) {
 
@@ -17,9 +31,13 @@ export function printBooks(books) {
     books.map(book => {
         let liElement = document.createElement('li');
         liElement.id = book.id;
-        liElement.innerHTML = book.title;
+
+        let aElement = document.createElement('a');
+        aElement.id = book.id;
+        aElement.innerHTML = book.title;
 
         availableBookList.appendChild(liElement);
+        liElement.appendChild(aElement);
         checkIfBorrowed(book);
     });
 };
@@ -49,7 +67,7 @@ function createButton(book) {
 
     availableBookList.appendChild(borrowButton);
     borrowButton.addEventListener('click', borrowBook);
-};
+}
 
 function borrowBook(e) {
     let id = e.currentTarget.id;
@@ -62,7 +80,7 @@ function borrowBook(e) {
         body: JSON.stringify({bookId: id})
     })
     .then(data => {
-        updateBooks();
+        fetchBooks();
     });
 
 };

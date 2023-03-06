@@ -40,7 +40,7 @@ p.borrowed{
     color: red;
 }
 
-button{
+button, input[type=submit]{
     /*padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
@@ -63,11 +63,6 @@ button{
 button:hover{
     background-color: #ababab;
     border: 2px solid #9c9c9c;
-}
-
-button.disable {
-    display: none;
-    color: red;
 }
 
 input{
