@@ -13,7 +13,7 @@ function createNewBook() {
 };
 
 function postNewBook(book) {
-    fetch('http://localhost:3000/library', {
+    fetch('http://localhost:3000/library/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
