@@ -8,7 +8,6 @@ export default function fetchBooks(){
         console.log(data);
     })
     .catch((error) => {
-        console.log('Error while getting data');
         showErrorMessage();
     });
 };

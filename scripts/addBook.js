@@ -1,12 +1,14 @@
-//import fetchBooks, { updateBooks } from "./main";
-
 const bookButton = document.querySelector('#addBookBtn');
 const inputTitle = document.querySelector('#title');
 const inputAuthor = document.querySelector('#author');
 const inputPages = document.querySelector('#pages');
 
+function printAddingBookForm() {
+
+}
+
 function createNewBook() {
-    let book = { name: inputTitle.value, 
+    let book = { title: inputTitle.value, 
         author: inputAuthor.value, 
         pages: inputPages.value 
     };
@@ -26,7 +28,9 @@ function postNewBook(book) {
     .then(res => res.json())
     .then((book) => {
         console.log(book);  
-        //fetchBooks();
+    })
+    .catch((error) => {
+        console.log('Error - Book not added');
     });
 };
 
