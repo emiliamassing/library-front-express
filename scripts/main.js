@@ -5,7 +5,6 @@ export default function fetchBooks(){
     .then(res => res.json())
     .then(data => {
         printBooks(data);
-        console.log(data);
     })
     .catch((error) => {
         showErrorMessage();
@@ -47,7 +46,7 @@ function checkIfBorrowed(book) {
     
     availableBookList.appendChild(pElement);
 
-    createButtons(book);
+    createBorrowButton(book);
     const button = document.querySelectorAll('button');
 
     if(book.borrowed === false){
@@ -60,29 +59,26 @@ function checkIfBorrowed(book) {
     };
 };
 
-function createButtons(book) {
+function createBorrowButton(book) {
     const borrowButton = document.createElement('button');
-    const returnButton = document.createElement('button');
     borrowButton.id = book.id;
-    returnButton.id = book.id;
+
+    availableBookList.appendChild(borrowButton);
 
     if(book.borrowed == false){
-        availableBookList.appendChild(borrowButton);
         borrowButton.innerHTML = 'Borrow Book';
 
     } else{
-        availableBookList.appendChild(returnButton);
-        returnButton.innerHTML = 'Return Book';
+        borrowButton.innerHTML = 'Return Book';
     }
 
-    borrowButton.addEventListener('click', borrowBook);
-    returnButton.addEventListener('click', returnBook);
+    borrowButton.addEventListener('click', toggleBookAvailability);
 };
 
-function borrowBook(e) {
+function toggleBookAvailability(e) {
     let id = e.currentTarget.id;
 
-    fetch("http://localhost:3000/library/borrow", {
+    fetch("http://localhost:3000/library/toggleAvailability", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -90,24 +86,9 @@ function borrowBook(e) {
         body: JSON.stringify({bookId: id})
     })
     .then(data => {
-        fetchBooks();
+        fetchBooks(data);
     });
 
-};
-
-function returnBook(e) {
-    let id = e.currentTarget.id;
-
-    fetch("http://localhost:3000/library/return", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({bookId: id})
-    })
-    .then(data => {
-        fetchBooks();
-    });
 };
 
 function createInfoButton(book) {
