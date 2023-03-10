@@ -1,7 +1,10 @@
 let availableBookList = document.querySelector('.availableBookList');
 
+//const backend = 'http://localhost:3000/library/';
+const backend = 'https://orca-app-y9iee.ondigitalocean.app/library';
+
 export default function fetchBooks(){
-    fetch("http://localhost:3000/library")
+    fetch(backend)
     .then(res => res.json())
     .then(data => {
         printBooks(data);
@@ -78,7 +81,7 @@ function createBorrowButton(book) {
 function toggleBookAvailability(e) {
     let id = e.currentTarget.id;
 
-    fetch("http://localhost:3000/library/toggleAvailability", {
+    fetch("https://orca-app-y9iee.ondigitalocean.app/library/toggleAvailability", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -108,7 +111,7 @@ function printButton(book) {
 function fetchInfo(e) {
     let id = e.currentTarget.id;
 
-    fetch("http://localhost:3000/library/" + id)
+    fetch(backend + id)
     .then((res) => res.json())
     .then((bookId) => {
         console.log('Get info');

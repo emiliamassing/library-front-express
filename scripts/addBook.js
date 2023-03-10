@@ -3,6 +3,9 @@ const inputTitle = document.querySelector('#title');
 const inputAuthor = document.querySelector('#author');
 const inputPages = document.querySelector('#pages');
 
+//const backend = 'http://localhost:3000/library/add';
+const backend = 'https://orca-app-y9iee.ondigitalocean.app/library/add';
+
 function createNewBook() {
     let book = { title: inputTitle.value, 
         author: inputAuthor.value, 
@@ -13,7 +16,7 @@ function createNewBook() {
 };
 
 function postNewBook(book) {
-    fetch('http://localhost:3000/library/add', {
+    fetch(backend, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
